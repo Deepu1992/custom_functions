@@ -1,0 +1,87 @@
+
+
+
+cd
+ls
+cd ./
+rm abc.txt (removes file)
+touch
+chmod
+
+
+arguments
+	-i ignore case
+	-iname name (can use wildcards)
+
+##########common commands##########
+	find (used to find files)
+		$find . -type f-iname "*.php"              ### finds all the php files
+                                                  
+		$find . -maxdepth 1 -type f -iname conf    ### search files but control depth of search, stops recursice seach
+	        $find . -maxdepth 1 -type f -iname "*.conf" -size +50K ### get files with size over 50K
+
+	grep command (find things in files)
+		$grep "function" file1.php file10.txt ### find whenever "function" is found in files
+		$grep -n -i "function"  ./*  #ignore case
+	
+
+	combined pull using grep and find
+		$find . -type f -size -10k -iname "*php" -exec grep -i n "function" {} +
+
+	redirect the output of a command
+		$ls > outfile.txt ### report the output of the command to a txt file
+		$find . -type f -size -10k -iname "*php" -exec grep -i n "function" {} + > example.txt   #write complex query output to example.txt
+		$find . -type f -size -10k -iname "*php" -exec grep -i n "function" {} + | tee example.txt   #write to example.txt and also display output
+
+
+#########dealing with processes################
+	process is an app that's running. 
+		$top #see top processes
+		$ps aux #show all processes
+		$ps aux | grep liri-browser ### get all liri browser processess
+		$pgrep liri-browser         ### get process id of all liri-browser processes
+		$kill -9 6300 6358          ### to kill process id 6300 and 6358          
+		$kill all liri-browser      ### kill all liri-browser
+
+
+########dealing with services###############
+	A particular type of process, using elastic search as an example of a service
+		$sudo service elasticsearch start #start a service
+		$sudo service elasticsearch stop  #stop a service
+
+	#lets say you want to run it on a specific port
+		#you have to edit a config file, which is usually a YML file
+		$find /etc -type f -iname "elasticsearch" #search in etc folder for elasticsearch
+		$sudo nano /etc/elaticsearch/elasticsearch.yml #open the file, where you can edit the http port in the file
+		#sudo service elasticsearch restart            #restart elasticsearch to use the update config file
+
+	#alternate way to do the same using system control
+		$sudo systemctl start elasticsearch
+		$sudo systemctl stop  elasticsearch
+
+
+########cron tabs###############
+	helps schdule a code execution
+	$crontab -e
+		#format of command is  m h dom mon dow command
+		12 14 * * * ls > /home/deepu/cronres.txt      #run a ls command the 12th minute of hour 14 regardless of day of month, month, day of week
+
+
+######git#####
+	#install
+	$sudo apt-get install git git-extras
+
+	#cd into desired file
+	$git init
+	$git remote add origin <url-to-repo>
+	
+
+
+
+
+
+
+
+
+
+
