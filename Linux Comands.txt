@@ -76,7 +76,8 @@ arguments
 	$git remote add origin <url-to-repo>
 	
 
-
+####kill firefox#######
+pkill -f firefox
 
 
 
