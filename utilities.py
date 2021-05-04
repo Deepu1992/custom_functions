@@ -156,7 +156,11 @@ def reason_print_format(row):
             value = np.round(value,2)
         return str(feature) + " value is " + str(value)
 
-    def consecutive_days(date_strings_list):
+def consecutive_days(date_strings_list):
+        
+        from datetime import datetime
+        from itertools import groupby
+        from operator import itemgetter
     """
     Requires input to be of len > 0
     
