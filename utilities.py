@@ -155,3 +155,46 @@ def reason_print_format(row):
         if 'float' in str(type(value)):
             value = np.round(value,2)
         return str(feature) + " value is " + str(value)
+
+    def consecutive_days(date_strings_list):
+    """
+    Requires input to be of len > 0
+    
+
+    Parameters
+    ----------
+    date_strings_list   : list of date strings in '%Y-%m-%d' format
+        DESCRIPTION.
+        like ['2021-05-07', '2021-05-14', '2021-05-17', '2021-05-18']
+        
+    Returns
+    -------
+    stiched_groups      : list of lists of date strings in '%Y-%m-%d' format
+        
+        like [['2021-05-07'], ['2021-05-14', '2021-05-17', '2021-05-18']].
+
+    """
+    
+    ordering = lambda x: datetime.strptime(x, '%Y-%m-%d').toordinal()
+    
+    #group adjacent days
+    groups = [] #collects contiguous days
+    for k, g in groupby(enumerate(date_strings_list),
+                        key=lambda x: x[0] - ordering(x[1])):
+        groups.append([i[1] for i in g])    
+    
+    #stitch groups separated by weekend
+    stiched_groups = [groups[0]] #collects stiched groups separated by weekend
+    
+    for right in groups[1:]:
+        
+        #stitch if separated by only weekend
+        if np.busday_count(stiched_groups[-1][-1],right[0]) == 1:            
+            left  = stiched_groups.pop()
+            stiched_groups.append(left+right)
+        
+        #retain as separate groups
+        else:
+            stiched_groups.append(right)
+    
+    return stiched_groups
